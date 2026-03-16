@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body{
 margin:0;
 font-family:'poppins',sans-serif;
@@ -139,3 +140,146 @@ border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 
 }
+=======
+body{
+margin:0;
+font-family:'poppins',sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#2a37ea,#9fd3f4);
+}
+
+/* LEFT SIDE INTRO */
+
+.left-panel{
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:80px;
+color:white;
+}
+
+.left-panel h1{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.left-panel p{
+font-size:16px;
+opacity:0.9;
+max-width:420px;
+}
+
+/* RIGHT FORM */
+
+.right-panel{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* CARD */
+
+.form-card{
+background:white;
+padding:45px;
+width:380px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.form-card h1{
+margin-bottom:5px;
+font-size:30px;
+}
+
+.subtitle{
+color:#777;
+margin-bottom:25px;
+font-size:14px;
+}
+
+.input-group{
+text-align:left;
+margin-bottom:18px;
+}
+
+.input-group label{
+font-size:13px;
+color:#444;
+}
+
+.input-wrapper{
+position:relative;
+}
+
+input{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:6px;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:#6a85f1;
+box-shadow:0 0 5px rgba(106,133,241,0.4);
+}
+
+.eye{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#2a37ea,#9fd3f4);
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+.bottom-text{
+margin-top:18px;
+font-size:14px;
+}
+
+.bottom-text a{
+color:#6a85f1;
+font-weight:bold;
+text-decoration:none;
+}
+
+.profile-img{
+
+width:280px;
+height:320px;
+
+object-fit:cover;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+
+}
+>>>>>>> 93ecb6485b03b69fee093f661d7328e43f7fa9f3

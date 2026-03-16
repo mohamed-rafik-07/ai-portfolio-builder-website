@@ -2,4 +2,7 @@ flask
 pymongo[srv]
 werkzeug
 python-dotenv
+<<<<<<< HEAD
 gunicorn
+=======
+>>>>>>> 93ecb6485b03b69fee093f661d7328e43f7fa9f3
