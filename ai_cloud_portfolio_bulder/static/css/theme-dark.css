@@ -1,0 +1,120 @@
+/* ── DARK THEME ───────────────────────────────────────────
+   Deep navy background with sky-blue neon accent.
+──────────────────────────────────────────────────────────── */
+:root {
+  --blue:        #38bdf8;
+  --blue-light:  #7dd3fc;
+  --blue-pale:   #0c2a3a;
+  --text-dark:   #f1f5f9;
+  --text-mid:    #cbd5e1;
+  --text-muted:  #94a3b8;
+  --bg:          #0f172a;
+  --white:       #1e293b;
+  --border:      #334155;
+  --shadow:      0 4px 24px rgba(0,0,0,0.4);
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Body */
+body { background: #0f172a; color: #f1f5f9; }
+
+/* Navbar */
+.site-nav {
+  background: rgba(15,23,42,0.95);
+  border-bottom: 1px solid #1e3a5f;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+.nav-logo { color: #38bdf8; }
+.nav-links a         { color: #94a3b8; }
+.nav-links a:visited { color: #94a3b8; }
+.nav-links a:hover   { color: #38bdf8; background: #0c2a3a; }
+.nav-links a.active  { color: #38bdf8; }
+
+/* Hero */
+.hero-section { background: #0f172a; }
+.hero-section::before {
+  background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 65%);
+}
+.hero-name   { color: #f1f5f9; }
+.hero-role-line .role-word { color: #38bdf8; }
+.hero-intro  { color: #94a3b8; }
+.hero-greeting { color: #cbd5e1; }
+
+/* Photo */
+.hero-photo-wrap {
+  background: linear-gradient(160deg, #1e3a5f 0%, #0c2a3a 100%);
+  box-shadow: 0 16px 48px rgba(56,189,248,0.12);
+}
+
+/* Buttons */
+.btn-primary-hero {
+  background: #38bdf8;
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(56,189,248,0.3);
+}
+.btn-primary-hero:hover {
+  background: #0ea5e9;
+  box-shadow: 0 8px 20px rgba(56,189,248,0.4);
+}
+.btn-outline-hero {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+.btn-outline-hero:hover { border-color: #38bdf8; color: #38bdf8; }
+
+/* Sections */
+.section-bg    { background: #1e293b; }
+.section-tag   { color: #38bdf8; background: #0c2a3a; }
+.section-title { color: #f1f5f9; }
+.section-sub   { color: #94a3b8; }
+
+/* About */
+.about-extra { border-left-color: #38bdf8; color: #94a3b8; }
+.about-text  { color: #cbd5e1; }
+.about-sub-heading { color: #f1f5f9; }
+
+/* Skill cards */
+.skill-icon-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+.skill-icon-card:hover   { border-color: rgba(56,189,248,0.4); }
+.skill-icon-label        { color: #cbd5e1; }
+.skill-icon-fallback     { background: #0c2a3a; color: #38bdf8; }
+
+/* Project cards */
+.project-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+.project-card::before   { background: linear-gradient(90deg, #38bdf8, #818cf8); }
+.project-card:hover     { border-color: rgba(56,189,248,0.3); }
+.project-num            { color: #38bdf8; }
+.project-card h3        { color: #f1f5f9; }
+.project-card p         { color: #94a3b8; }
+
+/* Cert card */
+.cert-img-card { border-color: #334155; background: #0c2a3a; }
+
+/* AI score */
+.ai-cat-card          { background: #1e293b; border-color: #334155; }
+.ai-cat-name          { color: #94a3b8; }
+.ai-bar-bg            { background: #334155; }
+.ai-suggestions-wrap  { background: #1e293b; border-color: #334155; }
+.ai-sugg-heading      { color: #f1f5f9; }
+.ai-sugg-item         { color: #cbd5e1; }
+.ai-sugg-dot          { background: #38bdf8; }
+.ai-score-denom       { color: #94a3b8; }
+
+/* Contact */
+.contact-icon                { background: #0c2a3a; }
+.contact-icon-linkedin       { background: #0c1e33; }
+.contact-icon-github         { background: #1e293b; }
+.ci-label                    { color: #94a3b8; }
+.ci-value                    { color: #f1f5f9; }
+.ci-value a                  { color: #38bdf8; }
+
+/* Footer */
+.site-footer { background: #020617; color: #475569; }
+.site-footer strong { color: #94a3b8; }

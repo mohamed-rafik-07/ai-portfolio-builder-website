@@ -1,0 +1,72 @@
+/* ── LIGHT THEME ──────────────────────────────────────────
+   Bright, airy white portfolio with soft violet accents.
+──────────────────────────────────────────────────────────── */
+:root {
+  --blue:        #7c3aed;
+  --blue-light:  #8b5cf6;
+  --blue-pale:   #f5f3ff;
+  --text-dark:   #1e1b4b;
+  --text-mid:    #4c1d95;
+  --text-muted:  #7c3aed;
+  --bg:          #fafafa;
+  --white:       #ffffff;
+  --border:      #ede9fe;
+  --shadow:      0 4px 24px rgba(124,58,237,0.10);
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Navbar */
+.site-nav {
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid #ede9fe;
+}
+
+/* Nav logo & links */
+.nav-logo { color: #7c3aed; }
+.nav-links a.active { color: #7c3aed; }
+.nav-links a:hover  { color: #7c3aed; background: #f5f3ff; }
+
+/* Hero gradient orb */
+.hero-section::before {
+  background: radial-gradient(circle, rgba(237,233,254,0.7) 0%, transparent 65%);
+}
+
+/* Photo card */
+.hero-photo-wrap {
+  background: linear-gradient(160deg, #ede9fe 0%, #ddd6fe 100%);
+  box-shadow: 0 16px 48px rgba(124,58,237,0.18);
+}
+
+/* Primary button */
+.btn-primary-hero {
+  background: #7c3aed;
+  box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+}
+.btn-primary-hero:hover {
+  background: #6d28d9;
+  box-shadow: 0 8px 20px rgba(124,58,237,0.38);
+}
+
+/* Section tags */
+.section-tag { color: #7c3aed; background: #f5f3ff; }
+
+/* Project card top bar */
+.project-card::before {
+  background: linear-gradient(90deg, #7c3aed, #c4b5fd);
+}
+.project-num { color: #7c3aed; }
+
+/* Footer */
+.site-footer { background: #1e1b4b; }
+
+/* AI suggestions dot */
+.ai-sugg-dot { background: #7c3aed; }
+
+/* Skill fallback icon */
+.skill-icon-fallback { background: #f5f3ff; color: #7c3aed; }
+
+/* About extra border */
+.about-extra { border-left-color: #7c3aed; }
+
+/* Contact icon */
+.contact-icon { background: #f5f3ff; }
