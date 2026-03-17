@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ data.name }} — {{ data.role }}</title>
+  <meta name="description" content="{{ data.intro }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  {% if inline_css %}
+  <style>{{ portfolio_css | safe }}</style>
+  <style>{{ theme_css | safe }}</style>
+  {% else %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}?v=1.1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-' + (data.template or 'standard') + '.css') }}?v=1.1" />
+  {% endif %}
+  <!-- Devicons for tech language icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══════════════════════════════════════════ -->
+  <nav class="site-nav">
+
+    <a href="#home" class="nav-logo">{{ data.name.rstrip('.') }}.</a>
+
+    <ul class="nav-links">
+      <li><a href="#home"  class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      {% if is_owner %}<li><a href="#ai-score">AI Score</a></li>{% endif %}
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+  </nav>
+
+
+  <!-- ══ HERO ════════════════════════════════════════════ -->
+  <section id="home" class="hero-section">
+    <div class="hero-inner">
+
+      <!-- Left: Text -->
+      <div class="hero-text">
+        <p class="hero-greeting">Hi, There! <span class="wave">👋</span></p>
+        <h1 class="hero-name">I'm {{ data.name }}</h1>
+        <p class="hero-role-line">a <span class="role-word">{{ data.role }}</span></p>
+        <p class="hero-intro">{{ data.intro }}</p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary-hero">
+            Book a Call &rsaquo;
+          </a>
+          {% if data.resume %}
+          <a href="{{ url_for('static', filename='uploads/' + data.resume) }}" download class="btn-outline-hero btn-download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="17" height="17"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
+          {% endif %}
+          <a href="{{ url_for('download_portfolio', user_email=data.user_email) }}" class="btn-outline-hero btn-download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="17" height="17"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+            Download Portfolio
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Photo -->
+      <div class="hero-visual">
+
+        <!-- Profile Photo -->
+        <div class="hero-photo-wrap">
+          {% if data.photo %}
+          <img src="{{ url_for('static', filename='uploads/' + data.photo) }}" alt="{{ data.name }}" />
+          {% else %}
+          <img src="{{ url_for('static', filename='uploads/profile_professional.png') }}" alt="{{ data.name }}" />
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ══ ABOUT ════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="portfolio-section">
+
+      <span class="section-tag">About Me</span>
+      <h2 class="section-title">Education &amp; Skills</h2>
+      <p class="section-sub">{{ data.intro }}</p>
+      <p class="about-extra">
+        I am passionate about crafting clean, efficient, and scalable software solutions that make a real impact.
+        My academic foundation in Computer Science, combined with hands-on project experience, drives me to continuously grow and adapt.
+        I thrive at the intersection of creativity and logic, turning complex problems into elegant digital experiences.
+      </p>
+
+      <div class="about-grid">
+
+        <div>
+          <h3 class="about-sub-heading enlarged-heading">Education</h3>
+          <p class="about-text">{{ data.education }}</p>
+        </div>
+
+        <div>
+          <h3 class="about-sub-heading">Tech Stack</h3>
+          <div class="skills-icon-grid">
+            {% for skill in data.skills.split(",") %}
+            {% set s = skill.strip() | lower %}
+            <div class="skill-icon-card">
+              {% if 'python' in s %}
+                <i class="devicon-python-plain colored skill-icon-img"></i>
+              {% elif 'html' in s %}
+                <i class="devicon-html5-plain colored skill-icon-img"></i>
+              {% elif 'css' in s %}
+                <i class="devicon-css3-plain colored skill-icon-img"></i>
+              {% elif 'javascript' in s or s == 'js' %}
+                <i class="devicon-javascript-plain colored skill-icon-img"></i>
+              {% elif 'react' in s %}
+                <i class="devicon-react-original colored skill-icon-img"></i>
+              {% elif 'node' in s %}
+                <i class="devicon-nodejs-plain colored skill-icon-img"></i>
+              {% elif 'typescript' in s or 'ts' == s %}
+                <i class="devicon-typescript-plain colored skill-icon-img"></i>
+              {% elif 'java' in s and 'script' not in s %}
+                <i class="devicon-java-plain colored skill-icon-img"></i>
+              {% elif 'c++' in s or 'cpp' in s %}
+                <i class="devicon-cplusplus-plain colored skill-icon-img"></i>
+              {% elif 'c#' in s or 'csharp' in s %}
+                <i class="devicon-csharp-plain colored skill-icon-img"></i>
+              {% elif 'php' in s %}
+                <i class="devicon-php-plain colored skill-icon-img"></i>
+              {% elif 'vue' in s %}
+                <i class="devicon-vuejs-plain colored skill-icon-img"></i>
+              {% elif 'angular' in s %}
+                <i class="devicon-angularjs-plain colored skill-icon-img"></i>
+              {% elif 'django' in s %}
+                <i class="devicon-django-plain colored skill-icon-img"></i>
+              {% elif 'flask' in s %}
+                <i class="devicon-flask-original skill-icon-img"></i>
+              {% elif 'docker' in s %}
+                <i class="devicon-docker-plain colored skill-icon-img"></i>
+              {% elif 'git' in s %}
+                <i class="devicon-git-plain colored skill-icon-img"></i>
+              {% elif 'mysql' in s or 'sql' in s %}
+                <i class="devicon-mysql-plain colored skill-icon-img"></i>
+              {% elif 'mongodb' in s or 'mongo' in s %}
+                <i class="devicon-mongodb-plain colored skill-icon-img"></i>
+              {% elif 'swift' in s %}
+                <i class="devicon-swift-plain colored skill-icon-img"></i>
+              {% elif 'kotlin' in s %}
+                <i class="devicon-kotlin-plain colored skill-icon-img"></i>
+              {% elif 'ruby' in s %}
+                <i class="devicon-ruby-plain colored skill-icon-img"></i>
+              {% elif 'r' == s %}
+                <i class="devicon-r-plain colored skill-icon-img"></i>
+              {% else %}
+                <span class="skill-icon-fallback">{{ skill.strip()[0] | upper }}</span>
+              {% endif %}
+              <span class="skill-icon-label">{{ skill.strip() }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ PROJECTS ══════════════════════════════════════════ -->
+  <section id="projects" class="section-bg">
+    <div class="portfolio-section">
+
+      <span class="section-tag">My Work</span>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-sub">A selection of projects that demonstrate my skills and passion for building great products.</p>
+
+      <div class="projects-grid">
+        {% for p in data.projects %}
+        {% if p %}
+        <div class="project-card">
+          <p class="project-num">Project {{ loop.index }}</p>
+          <h3 class="project-title-text">{{ p }}</h3>
+          <p class="project-auto-desc" data-title="{{ p }}"></p>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══ CERTIFICATIONS ════════════════════════════════════ -->
+  <section id="certifications">
+    <div class="portfolio-section">
+
+      <span class="section-tag">Credentials</span>
+      <h2 class="section-title">Certifications</h2>
+      <p class="section-sub">Professional certifications that validate my expertise and commitment to continuous learning.</p>
+
+      <!-- Marquee track: cards duplicated for seamless loop -->
+      <div class="cert-marquee-wrap">
+        <div class="cert-marquee-track">
+
+          {% for c in data.certifications %}{% if c.image %}
+          <div class="cert-img-card">
+            <img src="{{ url_for('static', filename='uploads/' + c.image) }}" alt="Certificate {{ loop.index }}" />
+          </div>
+          {% endif %}{% endfor %}
+
+          <!-- Duplicate for seamless loop -->
+          {% for c in data.certifications %}{% if c.image %}
+          <div class="cert-img-card" aria-hidden="true">
+            <img src="{{ url_for('static', filename='uploads/' + c.image) }}" alt="" />
+          </div>
+          {% endif %}{% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  {% if is_owner %}
+  <!-- ══ AI PORTFOLIO SCORE ══════════════════════════════ -->
+  <section id="ai-score" class="section-bg">
+    <div class="portfolio-section">
+
+      <span class="section-tag">AI Analysis</span>
+      <h2 class="section-title">AI Portfolio Score</h2>
+      <p class="section-sub">Our AI engine analysed your portfolio across 6 key dimensions and generated a personalised score and improvement suggestions.</p>
+
+      <div class="ai-score-layout">
+
+        <!-- Left: Ring + Label -->
+        <div class="ai-ring-col">
+          <div class="ai-ring-wrap">
+            <svg class="ai-ring-svg" viewBox="0 0 160 160" width="200" height="200">
+              <!-- Background track -->
+              <circle cx="80" cy="80" r="68" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+              <!-- Animated score arc -->
+              <circle id="score-arc" cx="80" cy="80" r="68"
+                fill="none"
+                stroke="{{ ai.color }}"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke-dasharray="427"
+                stroke-dashoffset="427"
+                transform="rotate(-90 80 80)"
+                style="transition: stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1);"
+              />
+            </svg>
+            <div class="ai-ring-center">
+              <span class="ai-score-num" style="color:{{ ai.color }};">{{ ai.score }}</span>
+              <span class="ai-score-denom">/100</span>
+            </div>
+          </div>
+          <p class="ai-label-badge" style="background:{{ ai.color }}1a; color:{{ ai.color }}; border:1.5px solid {{ ai.color }}40;">
+            {{ ai.label }}
+          </p>
+        </div>
+
+        <!-- Right: Breakdown + Suggestions -->
+        <div class="ai-detail-col">
+
+          <!-- Category bars -->
+          <div class="ai-breakdown-grid">
+            {% for cat, val in ai.breakdown.items() %}
+            <div class="ai-cat-card">
+              <div class="ai-cat-header">
+                <span class="ai-cat-name">{{ cat }}</span>
+                <span class="ai-cat-pts" style="color:{{ ai.color }};">{{ val.score }}<span style="color:#9ca3af;font-weight:500;">/{{ val.max }}</span></span>
+              </div>
+              <div class="ai-bar-bg">
+                <div class="ai-bar-fill" style="width:{{ (val.score / val.max * 100)|int }}%; background:{{ ai.color }};"></div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Suggestions -->
+          {% if ai.suggestions %}
+          <div class="ai-suggestions-wrap">
+            <h3 class="ai-sugg-heading">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M12 2a7 7 0 0 1 7 7c0 2.97-1.85 5.5-4.5 6.55V17a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1.45C6.85 14.5 5 11.97 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg>
+              Suggestions to Improve
+            </h3>
+            <ul class="ai-sugg-list">
+              {% for tip in ai.suggestions %}
+              <li class="ai-sugg-item">
+                <span class="ai-sugg-dot"></span>
+                {{ tip }}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% else %}
+          <div class="ai-perfect-wrap">
+            <span style="font-size:32px;">🎉</span>
+            <p>Outstanding! Your portfolio is fully optimised across all categories.</p>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JS: animate the score ring on load -->
+  <script>
+    (function () {
+      const arc = document.getElementById('score-arc');
+      if (!arc) return;
+      const score = {{ ai.score }};
+      const circumference = 427; // 2 * π * 68 ≈ 427
+      const offset = circumference - (score / 100) * circumference;
+      // Trigger after a short delay so transition fires
+      setTimeout(() => { arc.style.strokeDashoffset = offset; }, 120);
+    })();
+  </script>
+  {% endif %}
+
+  <section id="contact" class="section-bg">
+    <div class="portfolio-section">
+
+      <span class="section-tag">Get In Touch</span>
+      <h2 class="section-title">Contact Me</h2>
+      <p class="section-sub">Interested in working together or have a project in mind? Let's connect!</p>
+
+      <div class="contact-grid">
+
+        <!-- Info -->
+        <div>
+          {% if data.email %}
+          <div class="contact-info-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <p class="ci-label">Email</p>
+              <p class="ci-value"><a href="mailto:{{ data.email }}">{{ data.email }}</a></p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if data.phone %}
+          <div class="contact-info-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <p class="ci-label">Phone</p>
+              <p class="ci-value">{{ data.phone }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if data.linkedin %}
+          <div class="contact-info-item">
+            <div class="contact-icon contact-icon-linkedin">
+              <!-- Official LinkedIn logo -->
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.447 20.452H16.89v-5.569c0-1.327-.027-3.037-1.852-3.037-1.854 0-2.137 1.446-2.137 2.94v5.666H9.344V9h3.414v1.561h.049c.476-.899 1.637-1.846 3.368-1.846 3.601 0 4.267 2.369 4.267 5.455v6.282zM5.337 7.433a1.982 1.982 0 1 1 0-3.964 1.982 1.982 0 0 1 0 3.964zm1.71 13.019H3.626V9h3.421v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ci-label">LinkedIn</p>
+              <p class="ci-value"><a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if data.github %}
+          <div class="contact-info-item">
+            <div class="contact-icon contact-icon-github">
+              <!-- Official GitHub logo -->
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="#24292F" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ci-label">GitHub</p>
+              <p class="ci-value"><a href="{{ data.github }}" target="_blank">{{ data.github }}</a></p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ FOOTER ════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    Built with ❤ by <strong>{{ data.name }}</strong> · AI Portfolio Builder © 2026
+  </footer>
+
+  <!-- Scroll-spy: update active nav link based on section in view -->
+  <script>
+    /* ── Scroll-spy ─────────────────────────────────── */
+    (function () {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-links a');
+
+      function onScroll() {
+        // If user has scrolled to the very bottom, activate the last section
+        const atBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
+
+        let current = '';
+        sections.forEach(sec => {
+          const top = sec.offsetTop - (window.innerHeight / 2);
+          if (window.scrollY >= top) current = sec.getAttribute('id');
+        });
+
+        if (atBottom && sections.length) {
+          current = sections[sections.length - 1].getAttribute('id');
+        }
+
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* ── Smart project descriptions ──────────────────── */
+    (function () {
+      const rules = [
+        { keys: ['e-commerce','ecommerce','e commerce','shop','store','marketplace','retail','cart','checkout','product'],
+          desc: 'A fully-featured e-commerce platform with product listings, shopping cart, secure checkout, and order management — designed to deliver a seamless online shopping experience.' },
+        { keys: ['lms','learning management','course','education','classroom','student','teacher','lesson','quiz','e-learning','elearning'],
+          desc: 'A comprehensive Learning Management System that enables educators to create courses, track student progress, and deliver interactive lessons through an intuitive digital classroom.' },
+        { keys: ['portfolio','personal website','personal site','resume site','cv site'],
+          desc: 'A polished personal portfolio website showcasing projects, skills, and professional achievements — built to make a strong first impression with recruiters and clients.' },
+        { keys: ['blog','cms','content management','news','article','post','journal'],
+          desc: 'A dynamic content management system that lets authors publish, edit, and categorize articles with rich-text editing, tags, and a responsive reader experience.' },
+        { keys: ['chat','chatbot','messaging','real-time','realtime','socket','instant message'],
+          desc: 'A real-time chat application leveraging WebSockets for instant messaging, supporting multiple rooms, online presence indicators, and seamless communication between users.' },
+        { keys: ['social','network','community','feed','friend','follow','profile','timeline'],
+          desc: 'A social networking platform where users can connect, share posts, follow each other, and engage through comments and reactions in a vibrant community feed.' },
+        { keys: ['ai','machine learning','ml','deep learning','neural','nlp','gpt','llm','prediction','classifier','recommendation'],
+          desc: 'An AI-powered application that leverages machine learning models to deliver intelligent predictions, recommendations, or automated insights from complex datasets.' },
+        { keys: ['healthcare','hospital','clinic','patient','medical','doctor','appointment','health'],
+          desc: 'A healthcare management system streamlining patient records, appointment scheduling, and doctor-patient communication to improve care delivery and hospital efficiency.' },
+        { keys: ['banking','finance','fintech','payment','transaction','wallet','invoice','budget','accounting','expense'],
+          desc: 'A secure fintech solution enabling seamless payment processing, transaction tracking, budgeting tools, and real-time financial reporting for individuals and businesses.' },
+        { keys: ['task','todo','to-do','project management','kanban','board','agile','scrum','planner','tracker'],
+          desc: 'A smart task and project management tool with Kanban boards, priority labels, due dates, and team collaboration features to keep workflows organised and productive.' },
+        { keys: ['inventory','stock','warehouse','supply chain','logistics','delivery','shipping'],
+          desc: 'An inventory management system providing real-time stock tracking, low-stock alerts, supplier management, and detailed reports to optimise supply chain operations.' },
+        { keys: ['restaurant','food','recipe','menu','order','kitchen','cafe','delivery'],
+          desc: 'A food-tech solution for managing restaurant menus, online orders, kitchen workflow, and customer delivery tracking — bringing the full dining experience online.' },
+        { keys: ['real estate','property','housing','rental','listing','mortgage'],
+          desc: 'A real estate platform allowing users to browse property listings, schedule viewings, compare prices, and connect with agents for a smooth buying or renting experience.' },
+        { keys: ['travel','booking','hotel','flight','trip','tourism','destination','itinerary'],
+          desc: 'A travel booking platform enabling users to search flights, hotels, and trip packages, plan itineraries, and manage all their travel arrangements in one place.' },
+        { keys: ['game','gaming','puzzle','quiz','leaderboard','multiplayer'],
+          desc: 'An engaging interactive game featuring dynamic gameplay mechanics, score tracking, leaderboards, and a polished UI crafted for an enjoyable player experience.' },
+        { keys: ['iot','sensor','dashboard','monitoring','smart home','automation','device'],
+          desc: 'An IoT dashboard that aggregates live sensor data, visualises device metrics, and enables remote automation control for smart home or industrial monitoring setups.' },
+        { keys: ['api','rest','graphql','backend','server','microservice','endpoint'],
+          desc: 'A robust backend API providing clean, well-documented REST or GraphQL endpoints — designed for scalability, security, and seamless integration with frontend clients.' },
+        { keys: ['attendance','hr','employee','payroll','leave','recruitment','onboarding'],
+          desc: 'An HR management system covering employee onboarding, attendance tracking, payroll processing, and leave management to simplify day-to-day human resources operations.' },
+        { keys: ['library','book','catalog','isbn','borrow','return','reading'],
+          desc: 'A digital library system for cataloguing books, managing borrow and return cycles, tracking availability, and providing readers with smart search and recommendation features.' },
+        { keys: ['gym','fitness','workout','exercise','health tracker','bmi','diet'],
+          desc: 'A fitness tracking app that logs workouts, monitors health metrics, sets personal goals, and provides tailored exercise plans to help users lead a healthier lifestyle.' },
+        { keys: ['event','ticket','concert','conference','venue','registration','rsvp'],
+          desc: 'An event management platform supporting event creation, ticket sales, attendee registration, and real-time check-in — making every event organised and memorable.' },
+        { keys: ['voting','poll','election','survey','feedback','form'],
+          desc: 'A secure online voting and survey platform enabling organisations to run polls, collect structured feedback, and analyse results with clear visual reports.' },
+        { keys: ['weather','forecast','climate','temperature','map','geo'],
+          desc: 'A weather forecast app delivering real-time temperature, precipitation, and climate data through intuitive maps and graphs, helping users plan their day with confidence.' },
+        { keys: ['news','rss','feed','scraper','aggregator','headlines'],
+          desc: 'A news aggregator that pulls and curates headlines from multiple sources, letting users personalise their feed and stay informed on topics that matter most to them.' },
+        { keys: ['crm','customer','lead','sales','pipeline','client management'],
+          desc: 'A CRM application for managing customer relationships, tracking leads through a sales pipeline, logging interactions, and generating performance reports for sales teams.' },
+        { keys: ['auction','bid','marketplace','second-hand','listing'],
+          desc: 'An online auction and bidding platform where users can list items, place competitive bids, and securely complete transactions in a transparent marketplace environment.' },
+        { keys: ['school','university','college','academic','grade','result','exam'],
+          desc: 'An academic management system that handles student enrolment, grade recording, exam schedules, and result publications for schools and universities.' },
+        { keys: ['crypto','blockchain','nft','token','wallet','defi','web3'],
+          desc: 'A Web3 / blockchain application offering decentralised functionality — from token wallets and NFT marketplaces to smart-contract interactions on a transparent ledger.' },
+      ];
+
+      function getDescription(title) {
+        const lower = title.toLowerCase();
+        let matched = '';
+        // Iterate ALL rules — last match wins, so specific rules override generic ones (e.g. 'voting' beats 'ai')
+        for (const rule of rules) {
+          if (rule.keys.some(k => lower.includes(k))) matched = rule.desc;
+        }
+        if (matched) return matched;
+        // Generic fallback — still unique per project name
+        return `"${title}" is a software project built to solve a real-world problem, demonstrating strong engineering skills, clean architecture, and a focus on delivering a smooth, user-friendly experience.`;
+      }
+
+      document.querySelectorAll('.project-auto-desc').forEach(el => {
+        el.textContent = getDescription(el.dataset.title || '');
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Portfolio | AI Portfolio Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue:      #2563eb;
+      --blue-pale: #eff6ff;
+      --text-dark: #111827;
+      --text-mid:  #374151;
+      --text-muted:#6b7280;
+      --bg:        #f3f6fb;
+      --white:     #ffffff;
+      --border:    #e5e7eb;
+      --radius:    12px;
+      --transition:all 0.22s ease;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 48px 20px 60px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-head {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .page-head h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 6px;
+    }
+    .page-head p { font-size: 14px; color: var(--text-muted); }
+
+    /* ── CARD ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+      box-shadow: 0 8px 32px rgba(37,99,235,0.08);
+    }
+
+    /* ── SECTION HEADER ── */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue-pale);
+    }
+    .sec-icon {
+      width: 36px; height: 36px;
+      background: var(--blue-pale);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .sec-head h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .sec-head p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    /* ── GRID ── */
+    .row { display: grid; gap: 20px; }
+    .row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* ── FIELD ── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      background: #fafafa;
+      outline: none;
+      transition: var(--transition);
+    }
+    input:focus, textarea:focus {
+      border-color: var(--blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    textarea { resize: vertical; }
+
+    /* ── FILE UPLOAD BOX ── */
+    .upload-box {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      background: #fafafa;
+    }
+    .upload-box:hover { border-color: var(--blue); background: var(--blue-pale); }
+    .upload-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-box .up-icon { font-size: 28px; margin-bottom: 8px; }
+    .upload-box .up-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-mid);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .upload-box .up-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .upload-box .file-name {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    /* ── CERT ROW ── */
+    .cert-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    .cert-pair:last-of-type { margin-bottom: 0; }
+
+    /* ── TEMPLATE PICKER ── */
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+    .tpl-card {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 12px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      background: #fafafa;
+      user-select: none;
+    }
+    .tpl-card:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37,99,235,0.12); }
+    .tpl-card.selected { border-color: var(--blue); background: var(--blue-pale); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    .tpl-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 8px; right: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+    .tpl-preview {
+      height: 64px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.07);
+    }
+    .tpl-preview .tpl-bar   { height: 20px; }
+    .tpl-preview .tpl-body  { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .tpl-preview .tpl-line  { height: 5px; border-radius: 3px; }
+    .tpl-name  { font-size: 12.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+    .tpl-label { font-size: 11px; color: var(--text-muted); }
+
+    /* standard preview */
+    .tpl-standard .tpl-bar   { background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+    .tpl-standard .tpl-body  { background: #f3f6fb; }
+    .tpl-standard .tpl-line  { background: #2563eb; }
+    .tpl-standard .tpl-line:nth-child(2) { background: #93c5fd; width: 60%; }
+
+    /* light preview */
+    .tpl-light .tpl-bar   { background: #ffffff; border-bottom: 1px solid #ede9fe; }
+    .tpl-light .tpl-body  { background: #fafafa; }
+    .tpl-light .tpl-line  { background: #7c3aed; }
+    .tpl-light .tpl-line:nth-child(2) { background: #c4b5fd; width: 60%; }
+
+    /* dark preview */
+    .tpl-dark .tpl-bar    { background: #1e293b; }
+    .tpl-dark .tpl-body   { background: #0f172a; }
+    .tpl-dark .tpl-line   { background: #38bdf8; }
+    .tpl-dark .tpl-line:nth-child(2) { background: #7dd3fc; width: 60%; }
+
+    /* professional preview */
+    .tpl-professional .tpl-bar  { background: #1c1917; }
+    .tpl-professional .tpl-body { background: #f8f7f4; }
+    .tpl-professional .tpl-line { background: #f59e0b; }
+    .tpl-professional .tpl-line:nth-child(2) { background: #fde68a; width: 60%; }
+
+    @media (max-width: 680px) { .template-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+      letter-spacing: 0.2px;
+    }
+    .btn-submit:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+    }
+
+    @media (max-width: 680px) {
+      .row.cols-2, .row.cols-3, .cert-pair { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-head">
+    <h1>Create Your Portfolio</h1>
+    <p>Fill in your details to generate a professional portfolio instantly</p>
+  </div>
+
+  <div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+
+      <!-- hidden template value -->
+      <input type="hidden" name="template" id="templateInput" value="standard" />
+
+      <!-- ── PERSONAL INFO ── -->
+
+      <div class="sec-head">
+        <div class="sec-icon">👤</div>
+        <div>
+          <h3>Personal Information</h3>
+          <p>Basic details shown on your portfolio hero section</p>
+        </div>
+      </div>
+
+      <div class="row cols-2">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="e.g. John Smith" required />
+        </div>
+        <div class="field">
+          <label>Role / Career Goal</label>
+          <input type="text" name="role" placeholder="e.g. Web Developer" required />
+        </div>
+        <div class="field full">
+          <label>Short Introduction <span style="color:var(--text-muted);font-weight:400">(optional — auto-generated if blank)</span></label>
+          <textarea name="intro" rows="3" placeholder="Write a short intro about yourself..."></textarea>
+        </div>
+        <div class="field">
+          <label>Education</label>
+          <input type="text" name="education" placeholder="e.g. BSc Computer Science, MIT" />
+        </div>
+        <div class="field">
+          <label>Skills <span style="color:var(--text-muted);font-weight:400">(comma separated)</span></label>
+          <input type="text" name="skills" placeholder="Python, HTML, CSS, React" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── PROFILE PHOTO + RESUME ── -->
+      <div class="sec-head">
+        <div class="sec-icon">📎</div>
+        <div>
+          <h3>Profile Photo & Resume</h3>
+          <p>Upload your photo and resume to appear on your portfolio</p>
+        </div>
+      </div>
+
+      <div class="row cols-2">
+
+        <div class="field">
+          <label>Profile Photo</label>
+          <div class="upload-box" id="photoBox">
+            <input type="file" name="photo" accept="image/*" onchange="showFileName(this,'photoName')" />
+            <div class="up-icon">🖼</div>
+            <span class="up-label">Click to upload photo</span>
+            <span class="up-hint">JPG, PNG, WEBP · Max 5MB</span>
+            <p class="file-name" id="photoName"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Resume / CV</label>
+          <div class="upload-box" id="resumeBox">
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" onchange="showFileName(this,'resumeName')" />
+            <div class="up-icon">📄</div>
+            <span class="up-label">Click to upload resume</span>
+            <span class="up-hint">PDF, DOC, DOCX · Max 10MB</span>
+            <p class="file-name" id="resumeName"></p>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── PROJECTS ── -->
+      <div class="sec-head">
+        <div class="sec-icon">🚀</div>
+        <div>
+          <h3>Projects</h3>
+          <p>List up to 3 key projects you want to showcase</p>
+        </div>
+      </div>
+
+      <div class="row cols-3">
+        <div class="field">
+          <label>Project 1</label>
+          <input type="text" name="project1" placeholder="Project Title 1" />
+        </div>
+        <div class="field">
+          <label>Project 2</label>
+          <input type="text" name="project2" placeholder="Project Title 2" />
+        </div>
+        <div class="field">
+          <label>Project 3</label>
+          <input type="text" name="project3" placeholder="Project Title 3" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── CERTIFICATIONS ── -->
+      <div class="sec-head">
+        <div class="sec-icon">🏆</div>
+        <div>
+          <h3>Upload Your Certification Pictures</h3>
+          <p>Upload at least 3 certificate images to display on your portfolio</p>
+        </div>
+      </div>
+
+      <div class="row cols-3">
+
+        <div class="field">
+          <label>Certificate 1</label>
+          <div class="upload-box">
+            <input type="file" name="cert_img1" accept="image/*" onchange="showFileName(this,'certName1')" />
+            <div class="up-icon">📸</div>
+            <span class="up-label">Upload certificate</span>
+            <span class="up-hint">JPG, PNG · Max 5MB</span>
+            <p class="file-name" id="certName1"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Certificate 2</label>
+          <div class="upload-box">
+            <input type="file" name="cert_img2" accept="image/*" onchange="showFileName(this,'certName2')" />
+            <div class="up-icon">📸</div>
+            <span class="up-label">Upload certificate</span>
+            <span class="up-hint">JPG, PNG · Max 5MB</span>
+            <p class="file-name" id="certName2"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Certificate 3</label>
+          <div class="upload-box">
+            <input type="file" name="cert_img3" accept="image/*" onchange="showFileName(this,'certName3')" />
+            <div class="up-icon">📸</div>
+            <span class="up-label">Upload certificate</span>
+            <span class="up-hint">JPG, PNG · Max 5MB</span>
+            <p class="file-name" id="certName3"></p>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── CONTACT ── -->
+      <div class="sec-head">
+        <div class="sec-icon">📬</div>
+        <div>
+          <h3>Contact & Social Links</h3>
+          <p>These appear in the contact section of your portfolio</p>
+        </div>
+      </div>
+
+      <div class="row cols-2">
+        <div class="field">
+          <label>Contact Email</label>
+          <input type="email" name="contact" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="text" name="phone" placeholder="+91 9876543210" />
+        </div>
+        <div class="field">
+          <label>LinkedIn URL</label>
+          <input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" />
+        </div>
+        <div class="field">
+          <label>GitHub URL</label>
+          <input type="url" name="github" placeholder="https://github.com/yourname" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── TEMPLATE PICKER ── -->
+      <div class="sec-head">
+        <div class="sec-icon">🎨</div>
+        <div>
+          <h3>Choose Your Portfolio Theme</h3>
+          <p>Select a visual style — your portfolio will be generated in that theme</p>
+        </div>
+      </div>
+
+      <div class="template-grid">
+
+        <div class="tpl-card tpl-standard selected" onclick="selectTemplate('standard', this)" id="tpl-standard">
+          <div class="tpl-preview">
+            <div class="tpl-bar"></div>
+            <div class="tpl-body">
+              <div class="tpl-line" style="width:40%"></div>
+              <div class="tpl-line"></div>
+            </div>
+          </div>
+          <div class="tpl-name">Standard</div>
+          <div class="tpl-label">Default blue palette</div>
+        </div>
+
+        <div class="tpl-card tpl-light" onclick="selectTemplate('light', this)" id="tpl-light">
+          <div class="tpl-preview">
+            <div class="tpl-bar"></div>
+            <div class="tpl-body">
+              <div class="tpl-line" style="width:40%"></div>
+              <div class="tpl-line"></div>
+            </div>
+          </div>
+          <div class="tpl-name">Light Theme</div>
+          <div class="tpl-label">Clean white + violet</div>
+        </div>
+
+        <div class="tpl-card tpl-dark" onclick="selectTemplate('dark', this)" id="tpl-dark">
+          <div class="tpl-preview">
+            <div class="tpl-bar"></div>
+            <div class="tpl-body">
+              <div class="tpl-line" style="width:40%"></div>
+              <div class="tpl-line"></div>
+            </div>
+          </div>
+          <div class="tpl-name">Dark Theme</div>
+          <div class="tpl-label">Deep navy + sky blue</div>
+        </div>
+
+        <div class="tpl-card tpl-professional" onclick="selectTemplate('professional', this)" id="tpl-professional">
+          <div class="tpl-preview">
+            <div class="tpl-bar"></div>
+            <div class="tpl-body">
+              <div class="tpl-line" style="width:40%"></div>
+              <div class="tpl-line"></div>
+            </div>
+          </div>
+          <div class="tpl-name">Professional</div>
+          <div class="tpl-label">Slate + gold accent</div>
+        </div>
+
+      </div>
+
+      <hr class="divider" />
+
+      <button type="submit" class="btn-submit">🚀 Generate Portfolio</button>
+
+    </form>
+  </div>
+
+  <script>
+    function showFileName(input, targetId) {
+      const el = document.getElementById(targetId);
+      el.textContent = input.files[0] ? '✓ ' + input.files[0].name : '';
+    }
+
+    function selectTemplate(value, card) {
+      // Remove selected from all cards
+      document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+      // Mark clicked card
+      card.classList.add('selected');
+      // Update hidden input
+      document.getElementById('templateInput').value = value;
+    }
+  </script>
+
+</body>
+</html>

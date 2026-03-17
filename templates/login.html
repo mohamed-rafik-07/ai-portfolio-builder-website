@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — AI Portfolio Builder</title>
+  <meta name="description" content="Login to your AI Portfolio Builder account and manage your professional portfolio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}" />
+</head>
+<body>
+
+  <div class="auth-wrapper">
+
+    <!-- ── Left Panel ── -->
+    <div class="auth-left">
+
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <span class="brand-name">AI Portfolio Builder</span>
+      </div>
+
+      <div class="content-wrap">
+        <h2 class="panel-heading">
+          Welcome back!
+          <span>Great to see you again.</span>
+        </h2>
+
+        <p class="panel-text">
+          Log in to access your personal portfolio dashboard, update your profile,
+          and share your professional story with the world.
+        </p>
+
+        <ul class="features">
+          <li><span class="feat-icon">🚀</span> Publish your portfolio in seconds</li>
+          <li><span class="feat-icon">🎨</span> Beautiful, customisable templates</li>
+          <li><span class="feat-icon">🔗</span> Share with a single public link</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ── Right Panel ── -->
+    <div class="auth-right">
+      <div class="form-box">
+
+        <div class="form-header">
+          <h1>Sign in</h1>
+          <p>Enter your credentials to continue</p>
+        </div>
+
+        <!-- Alert Message -->
+        {% if message %}
+        <div class="alert alert-error" role="alert">
+          <span>⚠</span>
+          <span>{{ message }}</span>
+        </div>
+        {% endif %}
+
+        <form method="POST" id="loginForm" novalidate>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="email">Email address</label>
+            <div class="input-wrap">
+              <span class="field-icon">✉</span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <span class="field-icon">🔒</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="toggle-eye"
+                id="togglePwd"
+                aria-label="Toggle password visibility"
+                onclick="togglePassword('password','togglePwd')"
+              >👁</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Sign in to your account</button>
+
+        </form>
+
+        <div class="form-footer">
+          Don't have an account?
+          <a href="{{ url_for('register') }}">Please register first.</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.auth-wrapper -->
+
+  <script>
+    function togglePassword(fieldId, btnId) {
+      const input = document.getElementById(fieldId);
+      const btn   = document.getElementById(btnId);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? '🙈' : '👁';
+    }
+  </script>
+
+</body>
+</html>
